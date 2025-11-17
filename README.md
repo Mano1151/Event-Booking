@@ -6,7 +6,7 @@ It allows users to **signup, signin, view events, and book tickets**, with data 
 ---
 
 ## **🚀 Features**
-
+ 
 * 🔐 **User Authentication**
 
   * Signup
