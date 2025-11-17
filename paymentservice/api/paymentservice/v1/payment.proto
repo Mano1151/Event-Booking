@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package paymentservice.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "paymentservice/api/paymentservice/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.paymentservice.v1";
+option java_outer_classname = "PaymentserviceProtoV1";
+
+service PaymentService {
+  // Create a payment record
+  rpc CreatePayment (CreatePaymentRequest) returns (CreatePaymentReply) {
+    option (google.api.http) = {
+      post: "/v1/payments"
+      body: "*"
+    };
+  }
+}
+
+// Request: only booking_id and payment_method
+message CreatePaymentRequest {
+  uint64 booking_id = 1;
+  string payment_method = 2;
+}
+
+// Response: all details returned by service
+message CreatePaymentReply {
+  uint64 payment_id = 1;
+  uint64 booking_id = 2;
+  float amount = 3;
+  string method = 4;
+  string status = 5;       // PENDING / PAID / FAILED
+  string created_at = 6;   // formatted timestamp
+}

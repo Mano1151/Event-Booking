@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package userservice.v1;
+
+option go_package = "userservice/api/userservice/v1;v1";
+option java_multiple_files = true;
+option java_package = "userservice.v1";
+option objc_class_prefix = "APIUserserviceV1";
+
+enum ErrorReason {
+  GREETER_UNSPECIFIED = 0;
+  USER_NOT_FOUND = 1;
+}

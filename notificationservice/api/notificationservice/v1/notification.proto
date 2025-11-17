@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package notificationservice.v1;
+
+
+option go_package = "notificationservice/api/notificationservice/v1;v1";
+
+// Request for sending booking notification
+message SendBookingNotificationRequest {
+  uint64 booking_id = 1; // booking to notify
+    
+}
+
+// Reply for notification
+message SendBookingNotificationReply {
+  bool success = 1;
+  string message = 2;
+}
+
+// Notification service
+service NotificationService {
+  rpc SendBookingNotification(SendBookingNotificationRequest) returns (SendBookingNotificationReply);
+}

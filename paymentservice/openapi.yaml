@@ -1,0 +1,56 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: PaymentService API
+    version: 0.0.1
+paths:
+    /v1/payments:
+        post:
+            tags:
+                - PaymentService
+            description: Create a payment record
+            operationId: PaymentService_CreatePayment
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/paymentservice.v1.CreatePaymentRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/paymentservice.v1.CreatePaymentReply'
+components:
+    schemas:
+        paymentservice.v1.CreatePaymentReply:
+            type: object
+            properties:
+                paymentId:
+                    type: string
+                bookingId:
+                    type: string
+                amount:
+                    type: number
+                    format: float
+                method:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+            description: 'Response: all details returned by service'
+        paymentservice.v1.CreatePaymentRequest:
+            type: object
+            properties:
+                bookingId:
+                    type: string
+                paymentMethod:
+                    type: string
+            description: 'Request: only booking_id and payment_method'
+tags:
+    - name: PaymentService

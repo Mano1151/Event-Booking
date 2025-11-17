@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package users.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "userservice/api/userservice/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.users.v1";
+option java_outer_classname = "UsersProtoV1";
+
+// ---------------- Services ----------------
+service UserService {
+  // Register a new user
+  rpc CreateUser (CreateUserRequest) returns (UserReply) {
+    option (google.api.http) = {
+      post: "/users"
+      body: "*"
+    };
+  }
+
+  // Get a user by ID
+  rpc GetUser (GetUserRequest) returns (UserReply) {
+    option (google.api.http) = {
+      get: "/users/{id}"
+    };
+  }
+
+  // Update a user
+  rpc UpdateUser (UpdateUserRequest) returns (UserReply) {
+    option (google.api.http) = {
+      put: "/users/{id}"
+      body: "*"
+    };
+  }
+
+  // Delete a user
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserReply) {
+    option (google.api.http) = {
+      delete: "/users/{id}"
+    };
+  }
+
+  // List all users
+  rpc ListUsers (ListUsersRequest) returns (ListUsersReply) {
+    option (google.api.http) = {
+      get: "/users"
+    };
+  }
+
+  // Login (email + password)
+  
+  rpc LoginUser (LoginUserRequest) returns (AuthReply) {
+    option (google.api.http) = {
+      post: "/users/login"
+      body: "*"
+    };
+  }
+}
+
+// ---------------- Models ----------------
+
+// Core user model (maps to SQL `users` table)
+message User {
+  uint64 id = 1;
+  string name = 2;
+  string email = 3;
+  string password_hash = 4; // stored securely (bcrypt/argon2)
+  google.protobuf.Timestamp created_at = 5;
+}
+
+// ---------------- Requests & Replies ----------------
+
+// Create
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+  string password = 3; // plain password (to be hashed)
+  
+
+
+}
+message UserReply {
+  uint64 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+// Get
+message GetUserRequest {
+  uint64 id = 1;
+}
+
+// Update
+message UpdateUserRequest {
+  uint64 id = 1;
+  optional string name = 2;
+  optional string email = 3;
+  optional string password = 4;
+}
+
+// Delete
+message DeleteUserRequest {
+  uint64 id = 1;
+}
+message DeleteUserReply {
+  bool success = 1;
+}
+
+// List
+message ListUsersRequest {}
+message ListUsersReply {
+  repeated User users = 1;
+}
+
+// Login
+message LoginUserRequest {
+  string email = 1;
+  string password = 2;
+}
+message AuthReply {
+  string token = 1; // JWT
+  User user = 2;
+}

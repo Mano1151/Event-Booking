@@ -1,0 +1,269 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: EventService API
+    version: 0.0.1
+paths:
+    /show-events:
+        get:
+            tags:
+                - EventService
+            operationId: EventService_ListShowEvents
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/event.v1.ListShowEventsReply'
+        post:
+            tags:
+                - EventService
+            description: '---------------- ShowEvent CRUD ----------------'
+            operationId: EventService_CreateShowEvent
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/event.v1.CreateShowEventRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/event.v1.ShowEventReply'
+    /show-events/{id}:
+        get:
+            tags:
+                - EventService
+            operationId: EventService_GetShowEvent
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/event.v1.ShowEventReply'
+        put:
+            tags:
+                - EventService
+            operationId: EventService_UpdateShowEvent
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/event.v1.UpdateShowEventRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/event.v1.ShowEventReply'
+        delete:
+            tags:
+                - EventService
+            operationId: EventService_DeleteShowEvent
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/event.v1.DeleteShowEventReply'
+    /v1/events/Increment-seats:
+        post:
+            tags:
+                - EventService
+            operationId: EventService_IncrementSeats
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/event.v1.IncrementSeatsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/event.v1.IncrementSeatsReply'
+    /v1/events/decrement-seats:
+        post:
+            tags:
+                - EventService
+            operationId: EventService_DecrementSeats
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/event.v1.DecrementSeatsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/event.v1.DecrementSeatsReply'
+    /validate-user/{id}:
+        get:
+            tags:
+                - EventService
+            operationId: EventService_ValidateUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/event.v1.ValidateUserReply'
+components:
+    schemas:
+        event.v1.CreateShowEventRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+                description:
+                    type: string
+                date:
+                    type: string
+                pricePerSeat:
+                    type: number
+                    format: float
+                totalSeats:
+                    type: integer
+                    format: int32
+        event.v1.DecrementSeatsReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                message:
+                    type: string
+                availableSeats:
+                    type: integer
+                    format: int32
+        event.v1.DecrementSeatsRequest:
+            type: object
+            properties:
+                eventId:
+                    type: string
+                seatIds:
+                    type: array
+                    items:
+                        type: string
+        event.v1.DeleteShowEventReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        event.v1.IncrementSeatsReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                availableSeats:
+                    type: integer
+                    format: int32
+        event.v1.IncrementSeatsRequest:
+            type: object
+            properties:
+                eventId:
+                    type: string
+                seatIds:
+                    type: array
+                    items:
+                        type: string
+        event.v1.ListShowEventsReply:
+            type: object
+            properties:
+                showEvents:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/event.v1.ShowEvent'
+        event.v1.ShowEvent:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                date:
+                    type: string
+                totalSeats:
+                    type: integer
+                    format: int32
+                availableSeats:
+                    type: integer
+                    format: int32
+                pricePerSeat:
+                    type: number
+                    format: float
+        event.v1.ShowEventReply:
+            type: object
+            properties:
+                showEvent:
+                    $ref: '#/components/schemas/event.v1.ShowEvent'
+        event.v1.UpdateShowEventRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                date:
+                    type: string
+                totalSeats:
+                    type: integer
+                    format: int32
+                availableSeats:
+                    type: integer
+                    format: int32
+                pricePerSeat:
+                    type: number
+                    format: float
+        event.v1.ValidateUserReply:
+            type: object
+            properties:
+                found:
+                    type: boolean
+                message:
+                    type: string
+tags:
+    - name: EventService

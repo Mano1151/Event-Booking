@@ -1,0 +1,143 @@
+syntax = "proto3";
+
+package event.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "eventservice/api/eventservice/v1;v1";
+
+service EventService {
+
+   // ---------------- ShowEvent CRUD ----------------
+  rpc CreateShowEvent (CreateShowEventRequest) returns (ShowEventReply) {
+    option (google.api.http) = {
+      post: "/show-events"
+      body: "*"
+    };
+  }
+
+  rpc GetShowEvent (GetShowEventRequest) returns (ShowEventReply) {
+    option (google.api.http) = {
+      get: "/show-events/{id}"
+    };
+  }
+
+  rpc ListShowEvents (ListShowEventsRequest) returns (ListShowEventsReply) {
+    option (google.api.http) = {
+      get: "/show-events"
+    };
+  }
+
+  rpc UpdateShowEvent (UpdateShowEventRequest) returns (ShowEventReply) {
+    option (google.api.http) = {
+      put: "/show-events/{id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteShowEvent (DeleteShowEventRequest) returns (DeleteShowEventReply) {
+    option (google.api.http) = {
+      delete: "/show-events/{id}"
+    };
+  }
+
+  rpc ValidateUser (ValidateUserRequest) returns (ValidateUserReply) {
+  option (google.api.http) = {
+    get: "/validate-user/{id}"
+  };
+}
+   rpc DecrementSeats(DecrementSeatsRequest) returns (DecrementSeatsReply) {
+    option (google.api.http) = {
+      post: "/v1/events/decrement-seats"
+      body: "*"
+    };
+  }
+
+  rpc IncrementSeats(IncrementSeatsRequest) returns (IncrementSeatsReply) {
+    option (google.api.http) = {
+      post: "/v1/events/Increment-seats"
+      body: "*"
+    };
+  }
+}
+message ShowEvent {
+  uint64 id = 1;
+  string title = 2;
+  string description = 3;
+  string date = 4; // ISO8601 string
+  int32 total_seats = 5;
+  int32 available_seats = 6;
+  float price_per_seat = 7;
+}
+
+message CreateShowEventRequest {
+
+  string title = 1;
+  string description = 2;
+  string date = 3;
+  float price_per_seat = 4;
+  int32 total_seats = 5;
+}
+
+message ShowEventReply {
+  ShowEvent show_event = 1;
+} 
+
+message GetShowEventRequest {
+  uint64 id = 1;
+}
+
+message ListShowEventsRequest {}
+
+message ListShowEventsReply {
+  repeated ShowEvent show_events = 1;
+}
+
+message UpdateShowEventRequest {
+  uint64 id = 1;
+  string title = 2;
+  string description = 3;
+  string date = 4; // ISO8601 string
+  int32 total_seats = 5;
+  int32 available_seats = 6;
+  float price_per_seat = 7;
+}
+
+
+message DeleteShowEventRequest {
+  uint64 id = 1;
+}
+
+message DeleteShowEventReply {
+  bool success = 1;
+}
+
+message ValidateUserRequest {
+  uint64 id = 1;
+}
+
+message ValidateUserReply {
+  bool found = 1;
+  string message = 2;
+}
+
+message DecrementSeatsRequest {
+  uint64 event_id = 1;
+  repeated string seat_ids = 2;
+}
+
+message DecrementSeatsReply {
+  bool success = 1;
+  string message = 2;
+  int32 available_seats = 3;
+}
+
+message IncrementSeatsRequest {
+  uint64 event_id = 1;
+  repeated string seat_ids = 2;
+}
+
+message IncrementSeatsReply {
+  bool success = 1;
+  int32 available_seats = 2;
+}

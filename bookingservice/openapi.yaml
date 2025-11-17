@@ -1,0 +1,358 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: BookingService API
+    version: 0.0.1
+paths:
+    /events/{eventId}/booked-seats:
+        get:
+            tags:
+                - BookingService
+            operationId: BookingService_GetBookedSeats
+            parameters:
+                - name: eventId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/booking.v1.GetBookedSeatsReply'
+    /events/{eventId}/locked-seats:
+        get:
+            tags:
+                - BookingService
+            operationId: BookingService_GetLockedSeats
+            parameters:
+                - name: eventId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/booking.v1.GetLockedSeatsReply'
+    /v1/bookings:
+        get:
+            tags:
+                - BookingService
+            operationId: BookingService_ListBookings
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/booking.v1.ListBookingsReply'
+        post:
+            tags:
+                - BookingService
+            operationId: BookingService_CreateBooking
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/booking.v1.CreateBookingRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/booking.v1.CreateBookingReply'
+    /v1/bookings/{id}:
+        get:
+            tags:
+                - BookingService
+            operationId: BookingService_GetBooking
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/booking.v1.CreateBookingReply'
+        put:
+            tags:
+                - BookingService
+            operationId: BookingService_CancelBooking
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/booking.v1.CancelBookingRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/booking.v1.CreateBookingReply'
+        patch:
+            tags:
+                - BookingService
+            operationId: BookingService_UpdateBooking
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/booking.v1.UpdateBookingRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/booking.v1.UpdateBookingReply'
+    /v1/bookings/{id}/confirm:
+        put:
+            tags:
+                - BookingService
+            operationId: BookingService_ConfirmBooking
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/booking.v1.ConfirmBookingRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/booking.v1.CreateBookingReply'
+    /v1/events/{eventId}/lock-seat:
+        post:
+            tags:
+                - BookingService
+            operationId: BookingService_LockSeat
+            parameters:
+                - name: eventId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/booking.v1.LockSeatRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/booking.v1.LockSeatReply'
+    /v1/events/{eventId}/unlock-seat:
+        post:
+            tags:
+                - BookingService
+            operationId: BookingService_UnlockSeat
+            parameters:
+                - name: eventId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/booking.v1.UnlockSeatRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/booking.v1.UnlockSeatReply'
+    /v1/events/{id}:
+        get:
+            tags:
+                - BookingService
+            operationId: BookingService_GetEvent
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/booking.v1.GetEventReply'
+components:
+    schemas:
+        booking.v1.Booking:
+            type: object
+            properties:
+                id:
+                    type: string
+                eventId:
+                    type: string
+                userId:
+                    type: string
+                seatIds:
+                    type: array
+                    items:
+                        type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                totalCost:
+                    type: number
+                    format: float
+            description: '---------------- Messages ----------------'
+        booking.v1.CancelBookingRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+        booking.v1.ConfirmBookingRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+        booking.v1.CreateBookingReply:
+            type: object
+            properties:
+                booking:
+                    $ref: '#/components/schemas/booking.v1.Booking'
+        booking.v1.CreateBookingRequest:
+            type: object
+            properties:
+                userId:
+                    type: string
+                eventId:
+                    type: string
+                seatIds:
+                    type: array
+                    items:
+                        type: string
+        booking.v1.GetBookedSeatsReply:
+            type: object
+            properties:
+                seatIds:
+                    type: array
+                    items:
+                        type: string
+        booking.v1.GetEventReply:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                date:
+                    type: string
+                totalSeats:
+                    type: integer
+                    format: uint32
+                pricePerSeat:
+                    type: integer
+                    format: uint32
+        booking.v1.GetLockedSeatsReply:
+            type: object
+            properties:
+                seatIds:
+                    type: array
+                    items:
+                        type: string
+        booking.v1.ListBookingsReply:
+            type: object
+            properties:
+                bookings:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/booking.v1.Booking'
+        booking.v1.LockSeatReply:
+            type: object
+            properties:
+                locked:
+                    type: boolean
+        booking.v1.LockSeatRequest:
+            type: object
+            properties:
+                eventId:
+                    type: string
+                seatIds:
+                    type: array
+                    items:
+                        type: string
+                userId:
+                    type: string
+        booking.v1.UnlockSeatReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        booking.v1.UnlockSeatRequest:
+            type: object
+            properties:
+                eventId:
+                    type: string
+                seatIds:
+                    type: array
+                    items:
+                        type: string
+                userId:
+                    type: string
+        booking.v1.UpdateBookingReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        booking.v1.UpdateBookingRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                status:
+                    type: string
+tags:
+    - name: BookingService

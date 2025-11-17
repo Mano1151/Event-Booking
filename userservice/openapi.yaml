@@ -1,0 +1,198 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: UserService API
+    description: '---------------- Services ----------------'
+    version: 0.0.1
+paths:
+    /users:
+        get:
+            tags:
+                - UserService
+            description: List all users
+            operationId: UserService_ListUsers
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/users.v1.ListUsersReply'
+        post:
+            tags:
+                - UserService
+            description: Register a new user
+            operationId: UserService_CreateUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/users.v1.CreateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/users.v1.UserReply'
+    /users/login:
+        post:
+            tags:
+                - UserService
+            operationId: UserService_LoginUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/users.v1.LoginUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/users.v1.AuthReply'
+    /users/{id}:
+        get:
+            tags:
+                - UserService
+            description: Get a user by ID
+            operationId: UserService_GetUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/users.v1.UserReply'
+        put:
+            tags:
+                - UserService
+            description: Update a user
+            operationId: UserService_UpdateUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/users.v1.UpdateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/users.v1.UserReply'
+        delete:
+            tags:
+                - UserService
+            description: Delete a user
+            operationId: UserService_DeleteUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/users.v1.DeleteUserReply'
+components:
+    schemas:
+        users.v1.AuthReply:
+            type: object
+            properties:
+                token:
+                    type: string
+                user:
+                    $ref: '#/components/schemas/users.v1.User'
+        users.v1.CreateUserRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                email:
+                    type: string
+                password:
+                    type: string
+                role:
+                    type: string
+            description: Create
+        users.v1.DeleteUserReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        users.v1.ListUsersReply:
+            type: object
+            properties:
+                users:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/users.v1.User'
+        users.v1.LoginUserRequest:
+            type: object
+            properties:
+                email:
+                    type: string
+                password:
+                    type: string
+            description: Login
+        users.v1.UpdateUserRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                email:
+                    type: string
+                password:
+                    type: string
+            description: Update
+        users.v1.User:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                email:
+                    type: string
+                passwordHash:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+            description: Core user model (maps to SQL `users` table)
+        users.v1.UserReply:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                email:
+                    type: string
+tags:
+    - name: UserService

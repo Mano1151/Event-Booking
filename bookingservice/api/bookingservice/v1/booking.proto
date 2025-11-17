@@ -1,0 +1,182 @@
+syntax = "proto3";
+
+package booking.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "bookingservice/api/bookingservice/v1;v1";
+
+service BookingService {
+  rpc CreateBooking (CreateBookingRequest) returns (CreateBookingReply) {
+    option (google.api.http) = {
+      post: "/v1/bookings"
+      body: "*"
+    };
+  }
+
+  rpc GetBooking (GetBookingRequest) returns (CreateBookingReply) {
+    option (google.api.http) = {
+      get: "/v1/bookings/{id}"
+    };
+  }
+
+  rpc ListBookings (ListBookingsRequest) returns (ListBookingsReply) {
+    option (google.api.http) = {
+      get: "/v1/bookings"
+    };
+  }
+
+  rpc UpdateBooking(UpdateBookingRequest) returns (UpdateBookingReply) {
+    option (google.api.http) = {
+      patch: "/v1/bookings/{id}"
+      body: "*"
+    };
+  }
+
+  rpc CancelBooking (CancelBookingRequest) returns (CreateBookingReply) {
+    option (google.api.http) = {
+      put: "/v1/bookings/{id}"
+      body: "*"
+    };
+  }
+
+  rpc ConfirmBooking (ConfirmBookingRequest) returns (CreateBookingReply) {
+    option (google.api.http) = {
+      put: "/v1/bookings/{id}/confirm"
+      body: "*"
+    };
+  }
+
+  rpc GetBookedSeats(GetBookedSeatsRequest) returns (GetBookedSeatsReply) {
+    option (google.api.http) = {
+      get: "/events/{event_id}/booked-seats"
+    };
+  }
+
+  rpc GetLockedSeats(GetLockedSeatsRequest) returns (GetLockedSeatsReply) {
+    option (google.api.http) = {
+      get: "/events/{event_id}/locked-seats"
+    };
+  }
+
+  rpc LockSeat (LockSeatRequest) returns (LockSeatReply) {
+    option (google.api.http) = {
+      post: "/v1/events/{event_id}/lock-seat"
+      body: "*"
+    };
+  }
+
+  rpc UnlockSeat (UnlockSeatRequest) returns (UnlockSeatReply) {
+    option (google.api.http) = {
+      post: "/v1/events/{event_id}/unlock-seat"
+      body: "*"
+    };
+  }
+
+  rpc GetEvent (GetEventRequest) returns (GetEventReply) {
+    option (google.api.http) = {
+      get: "/v1/events/{id}"
+    };
+  }
+}
+
+// ---------------- Messages ----------------
+message Booking {
+  uint64 id = 1;
+  uint64 event_id = 2;
+  uint64 user_id = 3;
+  repeated string seat_ids = 4; 
+  string status = 5;
+  string created_at = 6;
+  float total_cost = 7;
+}
+
+message CreateBookingRequest {
+  uint64 user_id = 1;
+  uint64 event_id = 2;
+  repeated string seat_ids = 3;
+}
+
+message CreateBookingReply {
+  Booking booking = 1;
+}
+
+message GetBookingRequest {
+  uint64 id = 1;
+}
+
+message ListBookingsRequest {}
+
+message ListBookingsReply {
+  repeated Booking bookings = 1;
+}
+
+message CancelBookingRequest {
+  uint64 id = 1;
+}
+
+message ConfirmBookingRequest {
+  uint64 id = 1;
+}
+
+message ConfirmBookingReply {
+  string status = 1;
+}
+
+message UpdateBookingRequest {
+  uint64 id = 1;
+  string status = 2;
+}
+
+message UpdateBookingReply {
+  bool success = 1;
+}
+
+message GetLockedSeatsRequest {
+  uint64 event_id = 1;
+}
+
+message GetLockedSeatsReply {
+  repeated string seat_ids = 1;
+}
+
+message LockSeatRequest {
+  uint64 event_id = 1;
+  repeated string seat_ids = 2;
+  uint64 user_id = 3;
+}
+
+message LockSeatReply {
+  bool locked = 1;
+}
+
+message UnlockSeatRequest {
+  uint64 event_id = 1;
+  repeated string seat_ids = 2;
+  uint64 user_id = 3;
+}
+
+message UnlockSeatReply {
+  bool success = 1;
+}
+
+message GetBookedSeatsRequest {
+  uint64 event_id = 1;
+}
+
+message GetBookedSeatsReply {
+  repeated string seat_ids = 1;
+}
+
+// Event messages
+message GetEventRequest {
+  uint64 id = 1;
+}
+
+message GetEventReply {
+  uint64 id = 1;
+  string title = 2;
+  string date = 3;
+  uint32 total_seats = 4;
+  uint32 price_per_seat = 5;
+}

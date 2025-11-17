@@ -1,0 +1,19 @@
+server:
+  http:
+    network: tcp
+    addr: ":8003"
+    timeout: 10s
+  grpc:
+    network: tcp
+    addr: ":9003"
+    timeout: 10s
+
+data:
+  database:
+    driver: postgres
+    # Replace 'your_password' with the actual password for user 'postgres'
+    source: "postgres://admin:root@localhost:5432/mydb?sslmode=disable"
+    network: tcp
+    addr: "127.0.0.1:6379"
+    read_timeout: 1s
+    write_timeout: 1s
